@@ -1,0 +1,38 @@
+body {
+  background-color: lightblue;
+}
+
+h1 {
+  color: navy;
+  margin-left: 20px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto;
+  background-color: #2196F3;
+  padding: 1px;
+  border: 1px solid rgba(0, 0, 0, 0.8)
+}
+
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 1px;
+  font-size: 30px;
+  text-align: center;
+}
+
+.grid-icon {
+  width:64px;
+  height:64px;
+  border:0
+}
+.grid-label {
+  font-size: 12px
+}
+
+.grid-container-label {
+  font-size: 40px;
+  text-align: center;
+}
