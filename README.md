@@ -21,10 +21,10 @@ Requirements:
 This script when supplied with a configuration CSV file will create a webpage that aggregates administrative web portals. 
 
 Each record in the CSV is as follows:
-Category: Which tile set the portal link will be grouped in, i.e. Site:LasVegas, or SaaS_Apps
-ALTText: This is the text description of the portal link
-URI: This is the actual webaddress of the portal
-Image: The relative path to the image file
+1. Category: Which tile set the portal link will be grouped in, i.e. Site:LasVegas, or SaaS_Apps
+2. ALTText: This is the text description of the portal link
+3. URI: This is the actual webaddress of the portal
+4. Image: The relative path to the image file
 
 Put the powershell script in the website folder and run it as a scheduled task, or as needed to refresh the updated CSV.
 
