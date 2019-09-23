@@ -1,6 +1,8 @@
 # AdminPortal
 Admin Portal Aggregator
 
+New CSS file supplied by Trond @XenAppBlog
+
 In your environment you may have hundreds of the following:
 1. Out of band server mangement cards
 2. UPS management cards
@@ -15,7 +17,7 @@ Requirements:
 1. IIS server
 2. A collection of 64x64 pixel icons to represent each portal, hint: start with a default one, and add them over time.
 3. This script that generates the index.htm file
-4. The index.css file, which you may retheme to your pleasure.
+4. The index.css file, which you may retheme to your pleasure. 
 5. The config.csv file, which contains the information for each portal you want to add. I thought CSV would be the best format because alot of admins have this type of information already stored in Excel.
 
 This script when supplied with a configuration CSV file will create a webpage that aggregates administrative web portals. 
