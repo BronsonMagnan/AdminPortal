@@ -31,6 +31,6 @@ Put the powershell script in the website folder and run it as a scheduled task, 
 Sample usage
 ```.\PortalGenerator.ps1 -ConfigFile .\config.csv -WebSiteFile .\index.html```
 
-Screenshots:
+Screenshot:
 ![1](https://github.com/BronsonMagnan/AdminPortal/blob/master/newCSSSamples.png)
 
