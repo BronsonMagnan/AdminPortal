@@ -1,5 +1,8 @@
 body {
-  background-color: lightblue;
+  background-color: #3180AA;
+  font-family: "Segoe UI Webfont",-apple-system,"Helvetica Neue","Lucida Grande","Roboto","Ebrima","Nirmala UI","Gadugi","Segoe Xbox Symbol","Segoe UI Symbol","Meiryo UI","Khmer UI","Tunga","Lao UI","Raavi","Iskoola Pota","Latha","Leelawadee","Microsoft YaHei UI","Microsoft JhengHei UI","Malgun Gothic","Estrangelo Edessa","Microsoft Himalaya","Microsoft New Tai Lue","Microsoft PhagsPa","Microsoft Tai Le","Microsoft Yi Baiti","Mongolian Baiti","MV Boli","Myanmar Text","Cambria Math";
+  margin-right: 100px;
+  margin-left: 100px;
 }
 
 h1 {
@@ -9,30 +12,33 @@ h1 {
 
 .grid-container {
   display: grid;
-  grid-template-columns: auto auto auto auto auto auto;
-  background-color: #2196F3;
-  padding: 1px;
-  border: 1px solid rgba(0, 0, 0, 0.8)
+  grid-template-columns: 200px 200px 200px 200px 200px 200px 200px 200px;
+  justify-content: space-evenly;
+  background-color: #3180AA;
+  padding: 0px;
+  border: 0px solid rgba(0, 0, 0, 0.8)  
 }
 
 .grid-item {
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 1px;
-  font-size: 30px;
+  background-color: white;
+  border: 5px solid rgba(49, 128, 170);
+  padding: 10px;
+  font-size: 15px;
   text-align: center;
 }
 
 .grid-icon {
-  width:64px;
+  width:64x;
   height:64px;
   border:0
 }
+  
 .grid-label {
-  font-size: 12px
+  font-size: 15px
 }
 
 .grid-container-label {
-  font-size: 40px;
+  font-size: 25px;
   text-align: center;
+  color: white;
 }
