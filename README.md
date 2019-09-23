@@ -32,5 +32,5 @@ Sample usage
 ```.\PortalGenerator.ps1 -ConfigFile .\config.csv -WebSiteFile .\index.html```
 
 Screenshots:
-![1](https://github.com/BronsonMagnan/AdminPortal/blob/master/Sample1.png)
-![2](https://github.com/BronsonMagnan/AdminPortal/blob/master/Sample2.png)
+![1](https://github.com/BronsonMagnan/AdminPortal/blob/master/newCSSSamples.png)
+
