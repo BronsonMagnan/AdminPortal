@@ -17,10 +17,10 @@ Requirements:
 1. IIS server
 2. A collection of 64x64 pixel icons to represent each portal, hint: start with a default one, and add them over time.
 3. This script that generates the index.htm file
-4. The index.css file, which you may retheme to your pleasure. 
+4. The index.css file, which you may retheme to your pleasure.
 5. The config.csv file, which contains the information for each portal you want to add. I thought CSV would be the best format because alot of admins have this type of information already stored in Excel.
 
-This script when supplied with a configuration CSV file will create a webpage that aggregates administrative web portals. 
+This script when supplied with a configuration CSV file will create a webpage that aggregates administrative web portals.
 
 Each record in the CSV is as follows:
 1. Category: Which tile set the portal link will be grouped in, i.e. Site:LasVegas, or SaaS_Apps
@@ -31,7 +31,12 @@ Each record in the CSV is as follows:
 Put the powershell script in the website folder and run it as a scheduled task, or as needed to refresh the updated CSV.
 
 Sample usage
+
 ```.\PortalGenerator.ps1 -ConfigFile .\config.csv -WebSiteFile .\index.html```
+
+Sample usage, if you want to include shortcuts to different categories at the top of the page
+
+```.\PortalGenerator.ps1 -ConfigFile .\config.csv -WebSiteFile .\index.html -IncludeCategoryLinks```
 
 Screenshot:
 ![1](https://github.com/BronsonMagnan/AdminPortal/blob/master/newCSSSamples.png)
