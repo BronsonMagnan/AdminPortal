@@ -43,11 +43,9 @@ class AdminPortalItem : HTMLImageLink {
 
 class AdminPortalPage {
     [AdminPortalItem[]]$Database
-    [boolean]$IncludeCategoryLinks
 
-    AdminPortalPage([boolean]$IncludeCategoryLinks) {
-        $this.IncludeCategoryLinks = $IncludeCategoryLinks
-    }
+    AdminPortalPage() { }
+
     [void]AddRecord([AdminPortalItem]$Record) {
         $this.Database += $Record
     }
@@ -57,9 +55,7 @@ class AdminPortalPage {
     [string[]]EncapsulateCategory([string]$key) {
         [AdminPortalItem[]]$recordSet = $this.GetRecordsByCategory($key)
         $build = @()
-        if ($this.IncludeCategoryLinks) {
-            $build += "<a id=`"$key`"></a>"
-        }
+        $build += "<a id=`"$key`"></a>"
         $build += '<p class="grid-container-label">' + $key + '</p>'
         $build += '<div class="grid-container">'
         foreach ($Record in $recordSet) {
@@ -72,6 +68,9 @@ class AdminPortalPage {
         return ($this.Database).Category | Sort-Object | Select-Object -Unique
     }
     [string[]]GetHtml() {
+        return $this.GetHtml($false)
+    }
+    [string[]]GetHtml([boolean]$IncludeCategoryLinks = $false) {
         $Build = @()
         $build += '<!DOCTYPE html>'
         $build += '<html>'
@@ -79,7 +78,7 @@ class AdminPortalPage {
         $build += '<link rel="stylesheet" type="text/css" href="index.css">'
         $build += '</head>'
         $build += '<body>'
-        if ($this.IncludeCategoryLinks) {
+        if ($IncludeCategoryLinks) {
             $build += '<p class="grid-container-label">'
             $build += ($this.GetAllCategoriesInSet() | ForEach-Object { "<a href=`"#$_`">$_</a>" }) -join ' | '
             $build += '</p>'
@@ -94,11 +93,17 @@ class AdminPortalPage {
 }
 
 
-$DB = [AdminPortalPage]::new($IncludeCategoryLinks)
+$DB = [AdminPortalPage]::new()
 
 $LoadConfig = Get-Content -Path $ConfigFile | ConvertFrom-Csv
 foreach ($Config in $LoadConfig) {
     $DB.AddRecord([AdminPortalItem]::new($config.Category, $config.ALTText, $config.Image, $config.URI))
 }
 
-$db.GetHtml() | Set-Content -Path $WebSiteFile
+if ($IncludeCategoryLinks) {
+    # Should work true or false
+    $db.GetHtml($IncludeCategoryLinks) | Set-Content -Path $WebSiteFile
+}
+else {
+    $db.GetHtml() | Set-Content -Path $WebSiteFile
+}
