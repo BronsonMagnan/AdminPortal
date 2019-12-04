@@ -1,8 +1,9 @@
 #Admin Portal Generator
-    param(
-        [parameter(Mandatory)][validateNotNullOrEmpty()][string]$ConfigFile,
-        [parameter(Mandatory)][validateNotNullOrEmpty()][string]$WebSiteFile
-    )
+param(
+    [parameter(Mandatory)][validateNotNullOrEmpty()][string]$ConfigFile,
+    [parameter(Mandatory)][validateNotNullOrEmpty()][string]$WebSiteFile,
+    [parameter()][switch]$IncludeCategoryLinks
+)
 
 
 class HTMLImageLink {
@@ -10,23 +11,23 @@ class HTMLImageLink {
     [string]$URI
     [string]$Image
     hidden [boolean]$NewTab
-    HTMLImageLink ([string]$ALTText,[string]$URI,[string]$Image,[boolean]$NewTab){
+    HTMLImageLink ([string]$ALTText, [string]$URI, [string]$Image, [boolean]$NewTab) {
         $this.ALTText = $ALTText
         $this.URI = $URI
         $this.Image = $Image
         $this.NewTab = $NewTab
     }
-    [string]GetTargetCode(){
-        if ($this.NewTab) { return ' target="_blank"'} else { return ""}
+    [string]GetTargetCode() {
+        if ($this.NewTab) { return ' target="_blank"' } else { return "" }
     }
-    [string]GetHTML(){
+    [string]GetHTML() {
         return "<a href=`"$($this.URI)`"$($this.GetTargetCode())><img src=`"$($this.Image)`" class=`"grid-icon`" alt=`"$($this.ALTText)`"></a>"
     }
 }
- 
-class AdminPortalItem : HTMLImageLink{
-    [string]$Category    
-    AdminPortalItem([string]$Category,[string]$Label,    [string]$Image,    [string]$URI) : base ($Label,$URI,$Image,$true){
+
+class AdminPortalItem : HTMLImageLink {
+    [string]$Category
+    AdminPortalItem([string]$Category, [string]$Label, [string]$Image, [string]$URI) : base ($Label, $URI, $Image, $true) {
         $this.Category = $Category
     }
     [string[]]GetHTML() {
@@ -37,22 +38,24 @@ class AdminPortalItem : HTMLImageLink{
         $build += ' </div>'
         return $build
     }
-    
+
 }
 
 class AdminPortalPage {
     [AdminPortalItem[]]$Database
-    AdminPortalPage(){
-    }
-    [void]AddRecord([AdminPortalItem]$Record){
+
+    AdminPortalPage() { }
+
+    [void]AddRecord([AdminPortalItem]$Record) {
         $this.Database += $Record
     }
-    [AdminPortalItem[]]GetRecordsByCategory([string]$key){
-        return $this.Database.where({$_.Category -eq $key})
+    [AdminPortalItem[]]GetRecordsByCategory([string]$key) {
+        return $this.Database.where( { $_.Category -eq $key })
     }
-    [string[]]EncapsulateCategory([string]$key){
+    [string[]]EncapsulateCategory([string]$key) {
         [AdminPortalItem[]]$recordSet = $this.GetRecordsByCategory($key)
         $build = @()
+        $build += "<a id=`"$key`"></a>"
         $build += '<p class="grid-container-label">' + $key + '</p>'
         $build += '<div class="grid-container">'
         foreach ($Record in $recordSet) {
@@ -61,10 +64,13 @@ class AdminPortalPage {
         $build += '</div>'
         return $build
     }
-    [string[]]GetAllCategoriesInSet(){
+    [string[]]GetAllCategoriesInSet() {
         return ($this.Database).Category | Sort-Object | Select-Object -Unique
     }
     [string[]]GetHtml() {
+        return $this.GetHtml($false)
+    }
+    [string[]]GetHtml([boolean]$IncludeCategoryLinks = $false) {
         $Build = @()
         $build += '<!DOCTYPE html>'
         $build += '<html>'
@@ -72,6 +78,11 @@ class AdminPortalPage {
         $build += '<link rel="stylesheet" type="text/css" href="index.css">'
         $build += '</head>'
         $build += '<body>'
+        if ($IncludeCategoryLinks) {
+            $build += '<p class="grid-container-label">'
+            $build += ($this.GetAllCategoriesInSet() | ForEach-Object { "<a href=`"#$_`">$_</a>" }) -join ' | '
+            $build += '</p>'
+        }
         foreach ($Category in $this.GetAllCategoriesInSet()) {
             $build += $this.EncapsulateCategory($Category)
         }
@@ -82,11 +93,17 @@ class AdminPortalPage {
 }
 
 
-    $DB = [AdminPortalPage]::new()
+$DB = [AdminPortalPage]::new()
 
-    $LoadConfig = get-content -Path $ConfigFile | Convertfrom-csv 
-    foreach ($Config in $LoadConfig){
-        $DB.AddRecord([AdminPortalItem]::new($config.Category,$config.ALTText,$config.Image,$config.URI))
-    }
+$LoadConfig = Get-Content -Path $ConfigFile | ConvertFrom-Csv
+foreach ($Config in $LoadConfig) {
+    $DB.AddRecord([AdminPortalItem]::new($config.Category, $config.ALTText, $config.Image, $config.URI))
+}
 
+if ($IncludeCategoryLinks) {
+    # Should work true or false
+    $db.GetHtml($IncludeCategoryLinks) | Set-Content -Path $WebSiteFile
+}
+else {
     $db.GetHtml() | Set-Content -Path $WebSiteFile
+}
